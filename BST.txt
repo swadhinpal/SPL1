@@ -1,0 +1,140 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+  int key;
+  struct node *left, *right,*parent;
+};
+
+struct node *newNode(int item) {
+  struct node *temp = (struct node *)malloc(sizeof(struct node));
+  temp->key = item;
+  temp->left = temp->right=temp->parent= NULL;
+  return temp;
+}
+struct node *root=NULL;
+
+void inorder(struct node *root) {
+  if (root!= NULL) {
+    inorder(root->left);
+    printf("%d ", root->key);
+    inorder(root->right);
+  }
+}
+struct node *treeInsert(struct node *root, int key)
+{
+    struct node *x, *y, *z;
+    z=newNode(key);
+    y=NULL;
+    x=root;
+    while(x!=NULL)
+    {
+        y=x;
+        if(z->key<x->key)
+        {
+            x=x->left;
+        }
+        else x=x->right;
+    }
+    z->parent=y;
+    if(y==NULL)
+    {
+       root=z;
+    }
+    else {
+    if(z->key<y->key)
+    {
+        y->left=z;
+    }
+    else y->right=z;
+    }
+  return root;
+};
+
+struct node *treeMin(struct node *x)
+{
+    while(x->left!=NULL)
+    {
+        x=x->left;
+    }
+   return x;
+};
+
+struct node *treeSuccessor(struct node* x)
+{
+    if(x->right!=NULL)
+    {
+        return treeMin(x->right);
+    }
+    struct node *y=x->parent;
+    while(y!=NULL&&x!=y->left)
+    {
+        x=x->parent;
+        y=y->parent;
+    }
+return y;
+};
+struct node *findNode(struct node *node, int key) {
+  if (node == NULL||key==node->key) return node;
+  if (key< node->key)
+    findNode(node->left, key);
+  else if(key>node->key)
+    findNode(node->right, key);
+}
+struct node *treeDelete(struct node *root, int a)
+{
+    struct node *z=findNode(root,a);
+
+    struct node *y,*x;
+    if(z->left==NULL||z->right==NULL)
+    {
+       y=z;
+    }
+    else y= treeSuccessor(z);
+    if(y->left!=NULL)
+    {
+        x=y->left;
+    }
+    else x=y->right;
+    if(x!=NULL)
+    {
+       x->parent=y->parent;
+    }
+    if(y->parent==NULL)
+    {
+        root=x;
+    }
+    else if(y==y->parent->left) y->parent->left=x;
+    else y->parent->right=x;
+    if(y!=z)
+    {
+        z->key=y->key;
+    }
+return y;
+};
+int main()
+{
+    struct node *x,*y;
+    int size,i,key;
+    printf("Enter the size of Tree:\n");
+    //freopen("BST.txt","r",stdin);
+    scanf("%d",&size);
+    printf("Enter node key:\n");
+    for(i=0;i<size;i++){
+    scanf("%d",&key);
+    root=treeInsert(root,key);}
+    printf("Inorder traversal of the Tree:\n");
+    inorder(root);
+    printf("\nEnter the key to get successor:\n");
+    scanf("%d",&key);
+    x=findNode(root,key);
+    x=treeSuccessor(x);
+    if(x!=NULL)printf("The Successor of %d is %d\n",key,x->key);
+    else printf("NO successor exists.\n");
+    printf("Enter the key to be deleted:\n");
+    scanf("%d",&key);
+    x=treeDelete(root,key);
+    printf("Tree after deleting %d:\n", key);
+    inorder(root);
+    return 0;
+    }
