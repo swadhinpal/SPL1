@@ -6,7 +6,7 @@ int main()
     char p[200],ch;
     FILE *fp, *fp1;
 
-    fp=fopen("BST.c","r");
+    fp=fopen("BST.txt","r");
     fp1=fopen("newfile.txt","w");
 
     if(fp==NULL||fp1==NULL)
