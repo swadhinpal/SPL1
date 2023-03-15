@@ -2,7 +2,7 @@
 #include"PDG.h"
 using namespace std;
 
-int main()
+vector<double>Degree_Centrality()
 {
     vector<string>statement;
     statement=segmentation();
@@ -31,7 +31,7 @@ int main()
        {
            in_Deg[j]+=PDG1[i][j];
        }
-       cout<<in_Deg[j]<<" ";
+       //cout<<in_Deg[j]<<" ";
     }
     cout<<endl;
     cout<<"Out-Degree:\n";
@@ -39,18 +39,21 @@ int main()
     {
       val=(in_Deg[i]+out_Deg[i]);
       val/=(N-1);
-      cout<<out_Deg[i]<<" ";
+      //cout<<out_Deg[i]<<" ";
       //cout<<setprecision(1)<<val<<" ";
       DC[i]= val;
     }
      cout<<endl;
 
-    cout<<"Degree Centrality:\n";
-    for(int i=1;i<sizze-1;i++)
+    cout<<sizze-1<<"Degree Centrality:\n";
+    for(int i=1;i<sizze;i++)
     {
-        cout<<setprecision(4)<<DC[i]<<" ";
+        cout<<i<<":"<<setprecision(4)<<DC[i]<<endl;
     }
 
- return 0;
+ return DC;
 }
 
+
+
+	
